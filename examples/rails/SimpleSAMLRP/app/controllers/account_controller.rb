@@ -24,7 +24,7 @@
 
 require "pathname"
 require "cgi"
-require "relying_party"
+require "saml2ruby"
 
 
 class AccountController < ApplicationController
