@@ -1,0 +1,19 @@
+=Ruby SAML2
+
+Grabbed from https://opensso.dev.java.net/source/browse/opensso/extensions/saml2ruby/source/
+
+A Ruby library for SAML 2.0
+
+==Features
+* Easy to use API for acting as a SAML 2.0 relying party.
+
+
+
+
+
+
+
+
+
+
+
