@@ -4,15 +4,26 @@ require 'rake/rdoctask'
 require 'rake/packagetask'
 require 'rake/gempackagetask'
 
-require File.join(File.dirname(__FILE__), '/lib/saml2ruby/version')
+require File.join(File.dirname(__FILE__), '/lib/saml_2_ruby/version')
 
 PKG_BUILD       = ENV['PKG_BUILD'] ? '.' + ENV['PKG_BUILD'] : ''
 PKG_NAME        = 'saml2ruby'
-PKG_VERSION     = RSAML::VERSION::STRING + PKG_BUILD
+PKG_VERSION     = SAML::VERSION::STRING + PKG_BUILD
 PKG_FILE_NAME   = "#{PKG_NAME}-#{PKG_VERSION}"
 PKG_DESTINATION = ENV["PKG_DESTINATION"] || "../#{PKG_NAME}"
 
 RELEASE_NAME  = "REL #{PKG_VERSION}"
+
+PKG_FILES = FileList[
+  #'CHANGELOG',
+  #'LICENSE',
+  'README',
+  #'TODO',
+  'Rakefile',
+  'bin/**/*',
+  'doc/**/*',
+  'lib/**/*',
+] - [ 'test' ]
 
 require 'rubygems'
 begin
@@ -26,6 +37,7 @@ begin
     gemspec.authors = ["Sean Cashin"]
     gemspec.add_dependency('XMLCanonicalizer', '>=1.0.1')
     gemspec.version = PKG_VERSION
+    gemspec.files = PKG_FILES.to_a
   end
   Jeweler::GemcutterTasks.new
 rescue LoadError
@@ -62,44 +74,6 @@ namespace :rcov do
     system("#{rcov} test/*_test.rb")
     #system("open coverage/index.html") if PLATFORM['darwin']
   end
-end
-
-PKG_FILES = FileList[
-  #'CHANGELOG',
-  #'LICENSE',
-  'README',
-  #'TODO',
-  'Rakefile',
-  'bin/**/*',
-  'doc/**/*',
-  'lib/**/*',
-] - [ 'test' ]
-
-spec = Gem::Specification.new do |s|
-  s.name = 'rsaml'
-  s.version = PKG_VERSION
-  s.summary = "RSAML - SAML implementation in Ruby."
-  s.description = <<-EOF
-    An implementation of SAML in Ruby.
-  EOF
-
-  s.add_dependency('rake', '>= 0.7.1')
-  s.add_dependency('uuid', '>= 1.0.4')
-
-  s.rdoc_options << '--exclude' << '.'
-  s.has_rdoc = false
-
-  s.files = PKG_FILES.to_a.delete_if {|f| f.include?('.svn')}
-  s.require_path = 'lib'
-
-  s.author = "Anthony Eden"
-  s.email = "anthonyeden@gmail.com"
-end
-
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.gem_spec = spec
-  pkg.need_tar = true
-  pkg.need_zip = true
 end
 
 desc "Generate code statistics"

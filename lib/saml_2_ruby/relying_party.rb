@@ -26,8 +26,6 @@
 require "base64"
 require "rexml/document"
 
-require "xml_sec" 
-
 module SAML
 
   class RelyingParty

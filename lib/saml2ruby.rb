@@ -1,4 +1,1 @@
-
-$:.unshift(File.dirname(__FILE__))
-
-require 'saml2ruby/relying_party'
+require 'saml_2_ruby'
